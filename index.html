@@ -1,8 +1,8 @@
 <script src="https://cdn.auth0.com/js/auth0/9.5.1/auth0.min.js"></script>
 <wired-input id="email" placeholder="email" type="email"></wired-input>
-<wired-button id="sendEmail">Send Code</wired-button>
+<wired-button id="sendEmailCode">Send Email Code</wired-button>
 <wired-input id="code" placeholder="code"></wired-input>
-<wired-button id="sendCode">Login</wired-button>
+<wired-button id="login">Login</wired-button>
 <wired-button id="logout">Logout</wired-button>
 <script src="https://unpkg.com/wired-elements@latest/dist/wired-elements.bundled.min.js"></script>
 <script>
@@ -51,8 +51,8 @@
     });
   }
 
-  document.querySelector("#sendEmail").addEventListener("click", sendEmail);
-  document.querySelector("#sendCode").addEventListener("click", sendCode);
+  document.querySelector("#sendEmailCode").addEventListener("click", sendEmail);
+  document.querySelector("#login").addEventListener("click", sendCode);
   document.querySelector("#logout").addEventListener("click", logout);
 
   // after login with code, we'll be able to parse the hash of the url
