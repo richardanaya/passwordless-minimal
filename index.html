@@ -1,0 +1,66 @@
+<script src="https://cdn.auth0.com/js/auth0/9.5.1/auth0.min.js"></script>
+<wired-input id="email" placeholder="email" type="email"></wired-input>
+<wired-button id="sendEmail">Login</wired-button>
+<wired-input id="code" placeholder="code"></wired-input>
+<wired-button id="sendCode">Send Code</wired-button>
+<script src="https://unpkg.com/wired-elements@latest/dist/wired-elements.bundled.min.js"></script>
+<script>
+  var webAuth = new auth0.WebAuth({
+    clientID: "<auth 0 client ID>",
+    domain: "<auth 0 domain>",
+    redirectUri: location.origin, // this specifies our redirect page after code is succesfully submitted
+    responseType: "token id_token"
+  });
+
+  function sendEmail() {
+    // send code to email
+    webAuth.passwordlessStart(
+      {
+        connection: "email",
+        send: "code",
+        email: document.querySelector("#email").value
+      },
+      function(err, res) {
+        if (err) {
+          console.error(err);
+        }
+      }
+    );
+  }
+
+  function sendCode() {
+    // send the code and if its correct, we will redirect to our redirectUri
+    webAuth.passwordlessLogin(
+      {
+        connection: "email",
+        email: document.querySelector("#email").value,
+        verificationCode: document.querySelector("#code").value
+      },
+      function(err, res) {
+        if (err) {
+          console.error(err);
+        }
+      }
+    );
+  }
+
+  document.querySelector("#sendEmail").addEventListener("click", sendEmail);
+  document.querySelector("#sendCode").addEventListener("click", sendCode);
+
+  // after login with code, we'll be able to parse the hash of the url
+  webAuth.parseHash({ hash: window.location.hash }, function(err, authResult) {
+    if (err) {
+      return console.error(err);
+    }
+
+    // only if we have a hash will this not be null
+    if (authResult) {
+      webAuth.client.userInfo(authResult.accessToken, function(err, user) {
+        if (err) {
+          console.error(err);
+        }
+        console.log(user);
+      });
+    }
+  });
+</script>
