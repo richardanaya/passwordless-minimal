@@ -1,3 +1,5 @@
+![alt screenshot](screenshot.png)
+
 # Passwordless Minimal Example
 The most minimal Auth 0 passwordless example I could create. You will have to:
 * create an Auth 0 SPA app
