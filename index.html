@@ -3,6 +3,7 @@
 <wired-button id="sendEmail">Login</wired-button>
 <wired-input id="code" placeholder="code"></wired-input>
 <wired-button id="sendCode">Send Code</wired-button>
+<wired-button id="logout">Logout</wired-button>
 <script src="https://unpkg.com/wired-elements@latest/dist/wired-elements.bundled.min.js"></script>
 <script>
   var webAuth = new auth0.WebAuth({
@@ -44,8 +45,15 @@
     );
   }
 
+  function logout() {
+    webAuth.logout({
+      returnTo: location.origin
+    });
+  }
+
   document.querySelector("#sendEmail").addEventListener("click", sendEmail);
   document.querySelector("#sendCode").addEventListener("click", sendCode);
+  document.querySelector("#logout").addEventListener("click", logout);
 
   // after login with code, we'll be able to parse the hash of the url
   webAuth.parseHash({ hash: window.location.hash }, function(err, authResult) {
